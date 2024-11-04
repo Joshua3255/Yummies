@@ -32,7 +32,7 @@ You can explore this by clicking on [Yummies](https://yummies0.netlify.app/).
 The project is set up for **continuous integration and deployment** with GitHub and Netlify. To deploy the application, follow these steps:
 
 1. Push your changes to the GitHub repository.
-2. Netlify will automatically build and deploy the latest version of the application. (build command: parcel build index.html --dist-dir ./dist)
+2. Netlify will automatically build and deploy the latest version of the application. (build command: parcel build index.html --no-scope-hoist --dist-dir ./dist)
 
 ## Contact
 
