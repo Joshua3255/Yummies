@@ -2,9 +2,10 @@
   "name": "yummies",
   "version": "1.0.0",
   "description": "All recipes you want",
+  "default": "index.html",
   "scripts": {
     "start": "parcel index.html",
-    "build": "parcel build index.html"
+    "build": "parcel build index.html --dist-dir ./dist"
   },
   "author": "Joshua Ko",
   "license": "ISC",
