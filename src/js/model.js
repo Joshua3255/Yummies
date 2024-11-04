@@ -38,8 +38,6 @@ export const loadRecipe = async function (id) {
     } else {
       state.recipe.bookmarked = false;
     }
-
-    console.log('recipe', state.recipe);
   } catch (err) {
     console.error(`${err} ❌❌❌❌`);
     throw err;
@@ -49,7 +47,6 @@ export const loadRecipe = async function (id) {
 export const loadSearchResults = async function (query) {
   try {
     const data = await AJAX(`${API_URL}?search=${query}&key=${KEY}`);
-    console.log(data);
     state.search.query = query;
     state.search.page = 1; // Initialize current page when we searching
     state.search.results = data.data.recipes.map(rec => {
@@ -138,7 +135,6 @@ export const uploadRecipe = async function (newRecipe) {
       .filter(entry => entry[0].startsWith('ingredient') && entry[1] != '')
       .map(ing => {
         // const ingArr = ing[1].replaceAll(' ', '').split(',');
-        console.log('aaaaa', ingArr);
         const ingArr = ing[1].split(',').map(el => el.trim());
 
         if (ingArr.length !== 3)
@@ -150,8 +146,6 @@ export const uploadRecipe = async function (newRecipe) {
 
         return { quantity: quantity ? +quantity : null, unit, description };
       });
-    console.log(ingredients);
-    console.log('new', newRecipe);
 
     const recipe = {
       title: newRecipe.title,
