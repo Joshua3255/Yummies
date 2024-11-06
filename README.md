@@ -27,6 +27,33 @@ You can explore this by clicking on [Yummies](https://yummies0.netlify.app/).
 - core-js : provides polyfills for ECMAScript features up to 2023
 - Regenerator Runtime: transform async functions into code that can run in older browsers that do not natively support them
 
+## Getting Started
+
+First, Create Environment Variables
+
+- Create a `.env` file in the root directory of your project and add the following parameters:
+  - API_URL={Your variables}
+  - KEY={Your variables} #Key query string is used only for identifying your own recipes.
+  - TIMEOUT_SEC=10
+  - RES_PER_PAGE=10 #Results per page
+  - MODAL_CLOSE_SEC=2.5
+
+Second, Install dependencies:
+
+```bash
+npm install
+
+```
+
+Third, run the development server:
+
+```bash
+npm run start
+
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
 ## Deploy on Netlify
 
 The project is set up for **continuous integration and deployment** with GitHub and Netlify. To deploy the application, follow these steps:
