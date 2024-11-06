@@ -1,4 +1,5 @@
-import { TIMEOUT_SEC } from './config.js';
+// import { TIMEOUT_SEC } from './config.js';
+import 'dotenv';
 
 const timeout = function (s) {
   return new Promise(function (_, reject) {
@@ -20,7 +21,10 @@ export const AJAX = async function (url, uploadData = undefined) {
         })
       : fetch(`${url}`);
 
-    const res = await Promise.race([fecthPro, timeout(TIMEOUT_SEC)]);
+    const res = await Promise.race([
+      fecthPro,
+      timeout(process.env.TIMEOUT_SEC),
+    ]);
 
     const data = await res.json();
 

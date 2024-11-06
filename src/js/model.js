@@ -1,4 +1,5 @@
-import { API_URL, RES_PER_PAGE, KEY } from './config.js';
+// import { API_URL, RES_PER_PAGE, KEY } from './config.js';
+import 'dotenv';
 // import { getJSON, sendJSON } from './helpers.js';
 import { AJAX } from './helpers.js';
 
@@ -7,7 +8,7 @@ export const state = {
   search: {
     query: '',
     results: [],
-    resultsPerPage: RES_PER_PAGE,
+    resultsPerPage: process.env.RES_PER_PAGE,
     page: 1,
   },
   bookmarks: [],
@@ -30,7 +31,9 @@ const createRecipeObject = function (data) {
 
 export const loadRecipe = async function (id) {
   try {
-    const data = await AJAX(`${API_URL}${id}?key=${KEY}`);
+    const data = await AJAX(
+      `${process.env.API_URL}${id}?key=${process.env.KEY}`
+    );
     state.recipe = createRecipeObject(data);
 
     if (state.bookmarks.some(bookmark => bookmark.id === id)) {
@@ -46,7 +49,10 @@ export const loadRecipe = async function (id) {
 
 export const loadSearchResults = async function (query) {
   try {
-    const data = await AJAX(`${API_URL}?search=${query}&key=${KEY}`);
+    const data = await AJAX(
+      `${process.env.API_URL}?search=${query}&key=${process.env.KEY}`
+    );
+
     state.search.query = query;
     state.search.page = 1; // Initialize current page when we searching
     state.search.results = data.data.recipes.map(rec => {
@@ -112,22 +118,6 @@ init();
 const clearBookmarks = function () {
   localStorage.clear('bookmarks');
 };
-// clearBookmarks();
-
-// [
-//   [
-//       "ingredient-1",
-//       "0.5,kg,Rice"
-//   ],
-//   [
-//       "ingredient-2",
-//       "1,,Avocado"
-//   ],
-//   [
-//       "ingredient-3",
-//       ",,salt"
-//   ]
-// ]
 
 export const uploadRecipe = async function (newRecipe) {
   try {
@@ -136,13 +126,12 @@ export const uploadRecipe = async function (newRecipe) {
       .map(ing => {
         // const ingArr = ing[1].replaceAll(' ', '').split(',');
         const ingArr = ing[1].split(',').map(el => el.trim());
-
         if (ingArr.length !== 3)
           throw Error(
             'Wrong ingredient format! Please use the correct format.'
           );
 
-        const [quantity, unit, description] = ing[1];
+        const [quantity, unit, description] = ingArr;
 
         return { quantity: quantity ? +quantity : null, unit, description };
       });
@@ -157,8 +146,20 @@ export const uploadRecipe = async function (newRecipe) {
       ingredients,
     };
 
-    const data = await AJAX(`${API_URL}?key=${KEY}`, recipe);
+    const data = await AJAX(
+      `${process.env.API_URL}?key=${process.env.KEY}`,
+      recipe
+    );
     state.recipe = createRecipeObject(data);
+    const addResult = {
+      id: state.recipe.id,
+      title: state.recipe.title,
+      publisher: state.recipe.publisher,
+      image: state.recipe.image_url,
+      ...(state.recipe.key && { key: state.recipe.key }),
+    };
+    // Add newRecipe to results array
+    state.search.results = [addResult, ...state.search.results];
     addBookmark(state.recipe);
   } catch (err) {
     throw err;

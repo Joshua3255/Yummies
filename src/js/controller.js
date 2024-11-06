@@ -1,5 +1,6 @@
 import * as model from './model.js';
-import { MODAL_CLOSE_SEC } from './config.js';
+// import { MODAL_CLOSE_SEC } from './config.js';
+import 'dotenv';
 import recipeView from './views/recipeView.js';
 import searchView from './views/searchView.js';
 import resultsView from './views/resultsView.js';
@@ -120,10 +121,13 @@ const controllAddRecipe = async function (newRecipe) {
     // Change ID in URL
     window.history.pushState(null, '', `#${model.state.recipe.id}`);
 
+    // Render resultsView
+    resultsView.render(model.getSearchResultsPage(1));
+
     // Close form window
     setTimeout(function () {
       addRecipeView.toggleWindow();
-    }, MODAL_CLOSE_SEC * 1000);
+    }, process.env.MODAL_CLOSE_SEC * 1000);
   } catch (err) {
     console.log('❌❌', err);
     addRecipeView.renderError(err.message);
