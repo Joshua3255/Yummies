@@ -146,6 +146,11 @@ const init = function () {
 
 init();
 
+// Display a list of Pizzaz on initial loading
+(async () => {
+  await controlSearchResults();
+})();
+
 //showRecipe();
 
 //https://forkify-api.herokuapp.com/api/v2/recipes?search=pizza&key=33e58c7b-12b7-4662-b17c-8c5978e7065c
